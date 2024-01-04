@@ -1,0 +1,109 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-analytics.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.3/firebase-messaging.js"></script>
+     <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDLbzUWn2XYjtWS8aV-vLuI-GnVGhnHXWU",
+            authDomain: "upworkproject-585da.firebaseapp.com",
+            projectId: "upworkproject-585da",
+            storageBucket: "upworkproject-585da.appspot.com",
+            messagingSenderId: "407386294372",
+            appId: "1:407386294372:web:1f93ed2c4c4d2d50a9f771"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+      
+        const messaging = firebase.messaging();
+        //     messaging.getToken({ vapidKey: 'BNELwWqwuRGvOpeaSJqITjk-HxVlITV4rj1lDDM8OlPehd0Y_zlRHWyiV8DzTPl8jvDERUXb6-F89OOwWIPaNC4' }).then((currentToken) => {
+        //     if (currentToken) {
+            
+        //       console.log(currentToken)
+        //     } else {
+        //       console.log('No registration token available. Request permission to generate one.');
+        
+        //     }
+        //   }).catch((err) => {
+        //     console.log('An error occurred while retrieving token. ', err);
+        //   });
+            
+        messaging
+         .requestPermission()
+         .then(function () {
+           console.log("Notification permission granted.");
+           return messaging.getToken()
+         })
+         .then((token) => {
+            console.log('final token', token);
+            // send this token to backend
+         })
+         .catch(function (err) {
+         console.log("Unable to get permission to notify.", err);
+       });
+      
+      
+        // Handle incoming messages
+        messaging.onMessage((payload) => {
+            console.log('Message received:', payload);
+            const audio = new Audio('{% static "iphone_sound.mp3" %}');
+            audio.play();
+
+            // You can customize the handling of the incoming message here
+            // For example, display a notification to the user
+            const notification = new Notification(payload.notification.title, {
+                body: payload.notification.body,
+            });
+
+            // You can also handle the payload data as needed
+            console.log('Custom data:', payload.data);
+        });
+      
+      </script>  
+</head>
+<body>
+    <button id="playButton">Play Sound</button>
+
+<script>
+  const audio = new Audio('{% static "iphone_sound.mp3" %}');
+  document.getElementById('playButton').addEventListener('click', () => {
+    audio.play();
+  });
+</script>
+
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/firebase-messaging-sw.js')
+            .then((registration) => {
+                console.log('Service Worker registered with scope:', registration.scope);
+            })
+            .catch((error) => {
+                console.error('Service Worker registration failed:', error);
+            });
+    }
+    navigator.serviceWorker.addEventListener('message', event => {
+    const { type } = event.data;
+
+    if (type === 'notification') {
+        console.log('test')
+        // Play custom sound
+        const audio = new Audio('/static/iphone_sound.mp3');
+        audio.play();
+
+        // Show the notification
+        new Notification('Your App Name', options);
+    }
+    });
+</script>
+</body>
+</html>
