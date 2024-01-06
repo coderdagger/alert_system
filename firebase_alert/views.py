@@ -85,7 +85,7 @@ def firebaseserviceworker(request):
 
 def send_notification(registration_ids , message_title , message_desc):
     # Assuming your request data contains the FCM token and notification message
-        fcm_token = 'fHK1ModDtakGv1GVrAdI3S:APA91bE0leS04TRdlJhzOLrbbiCLaT29QW-K1OeEftl4_eQUJx5C_vsfFtW5QxStYjk9mQzKgMubQCq7kC_ko9mzsHeqn8ZcZwwohlxd7T4CQkvCl5baxmLYdTziaD0iHPqYv2uu1Zhw'
+        fcm_token = 'etWEBdAz8005mPYG0jN7BA:APA91bHcaByboxLSkp2FV-46VsinlfG2E7oyvG7razYkna5GwKun4JXiesMjVgTShWSs1x8gba-NEyGdZvhCKNKzs1KNdmvKLKKjZYazlkDHNNNuU4WbuuaFEcy277jz54iKre6ako-f'
         message = 'testing_firebase'
         print(fcm_token)
         print(message)
@@ -108,6 +108,6 @@ def send_notification(registration_ids , message_title , message_desc):
 
 
 def send(request):
-    resgistration  = ['fHK1ModDtakGv1GVrAdI3S:APA91bGA7b_jGDmRt7Uy-zoLZVsrsxL5kUM9M8HWM8aXzZzzjTUGS-cZt80Fmd8sLO16u2vyekhfWV4paVKFqXlU6e1Rt45fMWWBCtqJmMvWweUhrVG9In1WQr5Tbm5dZpbUX4XNOzbA']
+    resgistration  = ['etWEBdAz8005mPYG0jN7BA:APA91bHcaByboxLSkp2FV-46VsinlfG2E7oyvG7razYkna5GwKun4JXiesMjVgTShWSs1x8gba-NEyGdZvhCKNKzs1KNdmvKLKKjZYazlkDHNNNuU4WbuuaFEcy277jz54iKre6ako-f']
     send_notification(resgistration , 'Code Keen added a new video' , 'Code Keen new video alert')
     return HttpResponse("sent")
